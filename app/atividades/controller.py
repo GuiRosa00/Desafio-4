@@ -6,10 +6,14 @@ from app.alunos.model import Aluno
 
 class AtividadeGeral(MethodView): #/atividade
     def get(self):
+        """get(self)->dict,int
+        mostra as atividades cadastradas no sistema"""
         atividade = Atividade.query.all()
         return jsonify([atividade.json() for atividade in atividade]),200
     
     def post(self):
+        """post(self)-> dict,int
+        adiciona no sistema uma atividade"""
         dados = request.json
         horario = dados.get("horario")
         tipo =dados.get("tipo")
@@ -29,10 +33,14 @@ class AtividadeGeral(MethodView): #/atividade
     
 class AtividadeID(MethodView): #atividade/details/id
     def get(self,id):
+        """get(self,int)-> dict, int
+        Dado um id, retorna uma atividade específica do sistema"""
         atividade = Atividade.query.get_or_404(id)
         return atividade.json(),200
     
     def put(self,id):
+        """put(self,int)-> dict,int
+        Dado um id, altera todas as informações de uma atividade do sistema e mostra as alterações"""
         atividade = Atividade.query.get_or_404(id)
         dados = request.json
         horario = dados.get("horario")
@@ -53,6 +61,8 @@ class AtividadeID(MethodView): #atividade/details/id
         return atividade.json(),200
        
     def patch(self,id):
+        """patch(self,int)-> dict, int
+        Dado um id, verifica as informações do json e altera as necessárias no banco de dados de determinada atividade"""
         atividade = Atividade.query.get_or_404(id)
         dados = request.json
         horario = dados.get("horario",atividade.horario)
@@ -73,6 +83,8 @@ class AtividadeID(MethodView): #atividade/details/id
         return atividade.json(),200
       
     def delete(self,id):
+        """delete(self,int)-> dict, int
+        Dado um ID, deleta a atividade possuinte do ID no banco de dados."""
         atividade  = Atividade.query.get_or_404(id)
         db.session.delete(atividade)
         db.session.commit()

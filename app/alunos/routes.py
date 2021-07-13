@@ -1,6 +1,8 @@
 from flask import Blueprint
 from app.alunos.controller import AlunoGeral,AlunoID
 aluno_api = Blueprint('aluno_api',__name__)
+
+#rotas do aluno
 aluno_api.add_url_rule(
          '/aluno', view_func = AlunoGeral.as_view('aluno_create'), methods = ['GET','POST'])
 
