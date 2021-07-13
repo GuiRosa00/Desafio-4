@@ -80,15 +80,16 @@ class AtividadeID(MethodView): #atividade/details/id
             if not isinstance(dadoint,int): return {"Error": f"O dado {erro} não está tipado como Inteiro"}
         for dadostr,erro in listastr:
             if (not isinstance(dadostr,str)) or dadostr == '': return {"Error": f"O dado {erro} não está tipado como String"}  
-        if lotacao < atividade.lotacao: return {"Error": "A lotação da atividade ficaria menor que o número de alunos inseridos."}
-
+        
+        #verificações referente à lotação
+        if lotacao < len(atividade.alunos): return {"Error": "A lotação da atividade ficaria menor que o número de alunos inseridos."}
+        if len(id_list)>atividade.lotacao-len(atividade.alunos):return {"Error": "O número de alunos inscritos na atividade excederia sua lotação"}
+        
         #Adicao dos dados
         for aluno in id_list:
             aluno = Aluno.query.get_or_404(aluno)
-            if len(atividade.alunos)<atividade.lotacao:
-                if not(aluno in atividade.alunos):
-                    atividade.alunos.append(aluno)
-            else: return {"Error": "A atividade já está lotada"}
+            if not(aluno in atividade.alunos):
+                atividade.alunos.append(aluno)
         atividade.horario =horario
         atividade.tipo = tipo
         atividade.lotacao =lotacao
