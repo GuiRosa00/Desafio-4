@@ -1,5 +1,5 @@
 from app.extensions import db
-from app.atividades.model import Atividade
+from app.alunos.model import Aluno
 
 #associação das classes alunos e atividades
 association = db.Table('association',db.Model.metadata,
