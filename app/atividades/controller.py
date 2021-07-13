@@ -24,12 +24,12 @@ class AtividadeGeral(MethodView): #/atividade
         atividade = Atividade(horario = horario,tipo=tipo,lotacao=lotacao)
         db.session.add(atividade)
         db.session.commit()
-        return atividade.json,200
+        return atividade.json(),200
     
 class AtividadeID(MethodView): #atividade/details/id
     def get(self,id):
         atividade = Atividade.query.get_or_404(id)
-        return atividade.json,200
+        return atividade.json(),200
     
     def put(self,id):
         atividade = Atividade.query.get_or_404(id)
@@ -53,7 +53,7 @@ class AtividadeID(MethodView): #atividade/details/id
        
     def patch(self,id):
         atividade = Atividade.query.get_or_404(id)
-        dados = request.json()
+        dados = request.json
         horario = dados.get("horario",atividade.horario)
         tipo =dados.get("tipo",atividade.tipo)
         lotacao =dados.get("lotacao",atividade.lotacao)
@@ -75,4 +75,4 @@ class AtividadeID(MethodView): #atividade/details/id
         atividade  = Atividade.query.get_or_404(id)
         db.session.delete(atividade)
         db.session.commit()
-        return atividade.json, 200
+        return atividade.json(), 200

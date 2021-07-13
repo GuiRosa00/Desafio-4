@@ -28,16 +28,16 @@ class AlunoGeral(MethodView): #/aluno
         aluno = Aluno(nome = nome,genero=genero,endereco=endereco,idade=idade,contato=contato,cpf=cpf)
         db.session.add(aluno)
         db.session.commit()
-        return aluno.json,200
+        return aluno.json(),200
     
 class AlunoID(MethodView): #aluno/details/id
     def get(self,id):
         aluno = Aluno.query.get_or_404(id)
-        return aluno.json,200
+        return aluno.json(),200
     
     def put(self,id):
         aluno = Aluno.query.get_or_404(id)
-        dados = request.json()
+        dados = request.json
         nome =dados.get("nome")
         genero = dados.get("genero")
         endereco =dados.get("endereco")
@@ -63,7 +63,7 @@ class AlunoID(MethodView): #aluno/details/id
        
     def patch(self,id):
         aluno = Aluno.query.get_or_404(id)
-        dados = request.json()
+        dados = request.json
         nome =dados.get("nome",aluno.nome)
         genero = dados.get("genero",aluno.genero)
         endereco =dados.get("endereco",aluno.endereco)
@@ -91,5 +91,5 @@ class AlunoID(MethodView): #aluno/details/id
         aluno= Aluno.query.get_or_404(id)
         db.session.delete(aluno)
         db.session.commit()
-        return aluno.json, 200
+        return aluno.json(), 200
 

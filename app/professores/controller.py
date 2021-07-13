@@ -27,12 +27,12 @@ class ProfessorGeral(MethodView): #/professor
         professor = Professor(nome = nome,genero=genero,endereco=endereco,idade=idade,contato=contato,cpf=cpf)
         db.session.add(professor)
         db.session.commit()
-        return professor.json,200
+        return professor.json(),200
     
 class ProfessorID(MethodView): #professor/details/id
     def get(self,id):
         professor = Professor.query.get_or_404(id)
-        return professor.json,200
+        return professor.json(),200
     
     def put(self,id):
         professor = Professor.query.get_or_404(id)
@@ -62,7 +62,7 @@ class ProfessorID(MethodView): #professor/details/id
        
     def patch(self,id):
         professor = Professor.query.get_or_404(id)
-        dados = request.json()
+        dados = request.json
         nome =dados.get("nome",professor.nome)
         genero = dados.get("genero",professor.genero)
         endereco =dados.get("endereco",professor.endereco)
@@ -91,4 +91,4 @@ class ProfessorID(MethodView): #professor/details/id
         professor  = Professor.query.get_or_404(id)
         db.session.delete(professor)
         db.session.commit()
-        return professor.json, 200
+        return professor.json(), 200
