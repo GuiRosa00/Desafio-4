@@ -1,5 +1,4 @@
 from app.extensions import db
-from app.association import association_alu_ativ
 
 class Professor(db.Model):
     __tablename__ = 'professor'
@@ -12,3 +11,14 @@ class Professor(db.Model):
     contato = db.Column(db.Integer,unique = True,nullable = False)
     cpf = db.Column(db.Integer,unique = True,nullable = False)
     atividades = db.relationship('Atividade',backref='professor')
+
+    def json(self):
+        return {
+            "id":self.id,
+            "nome":self.nome,
+            "genero":self.genero,
+            "idade":self.idade,
+            "contato":self.contato,
+            "cpf":self.cpf,
+            "atividades": self.atividades
+        }

@@ -1,5 +1,5 @@
 from app.extensions import db
-from app.association import association_alu_ativ
+from app.association import association
 
 class Aluno(db.Model):
     __tablename__ = 'aluno'
@@ -11,4 +11,14 @@ class Aluno(db.Model):
     idade = db.Column(db.Integer,nullable = False)
     contato = db.Column(db.Integer,unique = True,nullable = False)
     cpf = db.Column(db.Integer,unique = True,nullable = False)
-    atividades = db.relationship('Atividade',secondary = association_alu_ativ, backref = db.backref('aluno'))
+    atividades = db.relationship('Atividade',secondary = association, backref = db.backref('aluno'))
+    def json(self):
+        return {
+            "id":self.id,
+            "nome":self.nome,
+            "genero":self.genero,
+            "idade":self.idade,
+            "contato":self.contato,
+            "cpf":self.cpf,
+            "atividades": self.atividades
+        }
