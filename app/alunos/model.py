@@ -8,6 +8,7 @@ class Aluno(db.Model):
     nome = db.Column(db.String(30),nullable = False)
     genero = db.Column(db.String(10),nullable = False)
     endereco = db.Column(db.String(50),nullable = False)
+    email = db.Column(db.String(100),nullable = False)
     idade = db.Column(db.Integer,nullable = False)
     contato = db.Column(db.Integer,unique = True,nullable = False)
     cpf = db.Column(db.Integer,unique = True,nullable = False)
