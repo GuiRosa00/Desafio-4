@@ -22,6 +22,7 @@ class AlunoGeral(MethodView): #/aluno
         idade =dados.get("idade")
         contato = dados.get("contato")
         cpf = dados.get("cpf")
+        
         #verificação dos dados
         listastr = [(nome,"nome"),(genero,"genero"),(endereco,"endereco"),(email,"email")]
         listaint = [(idade,"idade"),(contato, "contato"),(cpf,"cpf")]

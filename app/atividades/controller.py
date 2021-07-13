@@ -73,13 +73,14 @@ class AtividadeID(MethodView): #atividade/details/id
         #verificação dos dados
         listastr = [(horario,"horario"),(tipo,"tipo")]
         listaint = [(lotacao,"lotacao")]
+        
         if id_list != []:
             for id_l in id_list:
                 if not isinstance(id_l,int): return {"Error": f"Um ID não está tipado como Inteiro"}
         for dadoint,erro in listaint:
             if not isinstance(dadoint,int): return {"Error": f"O dado {erro} não está tipado como Inteiro"}
         for dadostr,erro in listastr:
-            if (not isinstance(dadostr,str)) or dadostr == '': return {"Error": f"O dado {erro} não está tipado como String"}  
+            if (not isinstance(dadostr,str)) or dadostr == '': return {"Error": f"O dado {erro} não está tipado como String ou está no formato ''"}  
         
         #verificações referente à lotação
         if lotacao < len(atividade.alunos): return {"Error": "A lotação da atividade ficaria menor que o número de alunos inseridos."}
