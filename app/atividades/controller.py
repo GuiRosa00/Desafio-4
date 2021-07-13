@@ -2,6 +2,7 @@ from flask import request,jsonify
 from flask.views import MethodView
 from app.atividades.model import Atividade
 from app.extensions import db
+from app.alunos.model import Aluno
 
 class AtividadeGeral(MethodView): #/atividade
     def get(self):

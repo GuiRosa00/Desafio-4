@@ -1,8 +1,8 @@
-from app.atividades.model import Atividade
 from flask import request,jsonify
 from flask.views import MethodView
 from app.alunos.model import Aluno
 from app.extensions import db
+from flask_mail import Message
 
 class AlunoGeral(MethodView): #/aluno
     def get(self):

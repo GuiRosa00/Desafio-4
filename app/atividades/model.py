@@ -1,4 +1,4 @@
-from app import alunos
+from app.association import association
 from app.extensions import db
 
 class Atividade(db.Model):
@@ -8,11 +8,12 @@ class Atividade(db.Model):
     horario = db.Column(db.String(5),nullable = False)
     tipo = db.Column(db.String(15),nullable = False)
     lotacao = db.Column(db.Integer,nullable = False)
+    alunos = db.relationship('Aluno',secondary = association, backref = db.backref('atividade'))
     def json(self):
         return {
             "id":self.id,
             "horario":self.horario,
             "tipo":self.tipo,
             "lotacao":self.lotacao,
-            "alunos":self.aluno,
+            "alunos":self.alunos,
         }
