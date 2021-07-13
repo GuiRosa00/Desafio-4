@@ -13,11 +13,14 @@ class Aluno(db.Model):
     contato = db.Column(db.Integer,unique = True,nullable = False)
     cpf = db.Column(db.Integer,unique = True,nullable = False)
     def json(self):
+        """json(self)-> dict
+        Retorna as informações de um aluno no formato json"""
         return {
             "id":self.id,
             "nome":self.nome,
             "genero":self.genero,
             "endereco":self.endereco,
+            "email":self.email,
             "idade":self.idade,
             "contato":self.contato,
             "cpf":self.cpf,

@@ -10,10 +10,12 @@ class Atividade(db.Model):
     lotacao = db.Column(db.Integer,nullable = False)
     alunos = db.relationship('Aluno',secondary = association, backref = db.backref('atividade'))
     def json(self):
+        """json(self)-> dict
+        Retorna as informações de uma atividade no formato json"""
         return {
             "id":self.id,
             "horario":self.horario,
             "tipo":self.tipo,
             "lotacao":self.lotacao,
-            "alunos":self.alunos,
+            "alunos": [aluno.id for aluno in self.alunos],
         }
