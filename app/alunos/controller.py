@@ -1,3 +1,4 @@
+from app.atividades.model import Atividade
 from flask import request,jsonify
 from flask.views import MethodView
 from app.alunos.model import Aluno
@@ -16,7 +17,6 @@ class AlunoGeral(MethodView): #/aluno
         idade =dados.get("idade")
         contato = dados.get("contato")
         cpf = dados.get("cpf")
-        
         #verificação dos dados
         listastr = [(nome,"nome"),(genero,"genero"),(endereco,"endereco")]
         listaint = [(idade,"idade"),(contato, "contato"),(cpf,"cpf")]
@@ -24,7 +24,6 @@ class AlunoGeral(MethodView): #/aluno
             if not isinstance(dadoint,int): return {"Error": f"O dado {erro} não está tipado como Inteiro"}
         for dadostr,erro in listastr:
             if (not isinstance(dadostr,str)) or dadostr == '': return {"Error": f"O dado {erro} não está tipado como String"}  
-        
         aluno = Aluno(nome = nome,genero=genero,endereco=endereco,idade=idade,contato=contato,cpf=cpf)
         db.session.add(aluno)
         db.session.commit()
@@ -92,4 +91,3 @@ class AlunoID(MethodView): #aluno/details/id
         db.session.delete(aluno)
         db.session.commit()
         return aluno.json(), 200
-
