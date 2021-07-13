@@ -24,5 +24,5 @@ class Aluno(db.Model):
             "idade":self.idade,
             "contato":self.contato,
             "cpf":self.cpf,
-            "atividades": self.atividade
+            "atividades": [atividade.horario for atividade in self.atividade]
         }

@@ -68,7 +68,7 @@ class AtividadeID(MethodView): #atividade/details/id
         horario = dados.get("horario",atividade.horario)
         tipo =dados.get("tipo",atividade.tipo)
         lotacao =dados.get("lotacao",atividade.lotacao)
-        id_list = dados.get("alunos",atividade.alunos)
+        id_list = dados.get("alunos",[])
 
         #verificação dos dados
         listastr = [(horario,"horario"),(tipo,"tipo")]
@@ -83,8 +83,10 @@ class AtividadeID(MethodView): #atividade/details/id
         
         for aluno in id_list:
             aluno = Aluno.query.get_or_404(aluno)
-            if not(aluno in atividade.alunos):
-                atividade.alunos.append(aluno)
+            if len(atividade.alunos)<atividade.lotacao:
+                if not(aluno in atividade.alunos):
+                    atividade.alunos.append(aluno)
+            else: return {"Error": "A atividade já está lotada"}
         atividade.horario =horario
         atividade.tipo = tipo
         atividade.lotacao =lotacao
@@ -102,7 +104,7 @@ class AtividadeID(MethodView): #atividade/details/id
 class AtivaluRemove(MethodView): #atividade/id/remove/aluno
     def delete(self,id):
         """delete(self,int)-> dict, int
-        Dado um ID e um input json, deleta os alunos possuinte do ID no banco de dados da atividade."""
+        Dado um ID e um input json, deleta os alunos possuinte do ID JSON no banco de dados da atividade."""
         atividade  = Atividade.query.get_or_404(id)
         dados = request.json
         id_list = dados.get("alunos",atividade.alunos)
