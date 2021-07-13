@@ -3,7 +3,7 @@ from flask.views import MethodView
 from app.alunos.model import Aluno
 from app.extensions import db
 
-class AlunoGeral(MethodView):
+class AlunoGeral(MethodView): #/aluno
     def get(self):
         aluno = Aluno.query.all()
         return jsonify([aluno.json() for aluno in aluno]),200
@@ -23,14 +23,14 @@ class AlunoGeral(MethodView):
         for dadoint,erro in listaint:
             if not isinstance(dadoint,int): return {"Error": f"O dado {erro} não está tipado como Inteiro"}
         for dadostr,erro in listastr:
-            if not isinstance(dadostr,str): return {"Error": f"O dado {erro} não está tipado como String"}  
+            if (not isinstance(dadostr,str)) or dadostr == '': return {"Error": f"O dado {erro} não está tipado como String"}  
         
         aluno = Aluno(nome = nome,genero=genero,endereco=endereco,idade=idade,contato=contato,cpf=cpf)
         db.session.add(aluno)
         db.commit()
         return aluno.json,200
     
-class AlunoID(MethodView):
+class AlunoID(MethodView): #aluno/details/id
     def get(self,id):
         aluno = Aluno.query.get_or_404(id)
         return aluno.json,200

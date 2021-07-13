@@ -1,5 +1,4 @@
 from app.extensions import db
-from app.association import association_alu_ativ
 
 class Professor(db.Model):
     __tablename__ = 'professor'
