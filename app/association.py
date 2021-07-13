@@ -1,6 +1,6 @@
 from app.extensions import db
 
 #associação das classes médico e paciente
-association_med_pac = db.Table('association_med_pac',db.Model.metadata,
-db.Column('medico', db.Integer, db.ForeignKey('medico.id')),
-db.Column('paciente', db.Integer, db.ForeignKey('paciente.id')))
+association_alu_ativ = db.Table('association_alu_ativ',db.Model.metadata,
+db.Column('aluno', db.Integer, db.ForeignKey('aluno.id')),
+db.Column('atividade', db.Integer, db.ForeignKey('atividade.id')))
