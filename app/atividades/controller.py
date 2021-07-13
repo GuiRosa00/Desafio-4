@@ -18,6 +18,7 @@ class AtividadeGeral(MethodView): #/atividade
         horario = dados.get("horario")
         tipo =dados.get("tipo")
         lotacao =dados.get("lotacao")
+        
         #verificação dos dados
         listastr = [(horario,"horario"),(tipo,"tipo")]
         listaint = [(lotacao,"lotacao")]
@@ -112,9 +113,13 @@ class AtivaluRemove(MethodView): #atividade/id/remove/aluno
         atividade  = Atividade.query.get_or_404(id)
         dados = request.json
         id_list = dados.get("alunos",atividade.alunos)
+        
+        #verificao dos dados
         if id_list != []:
             for id_l in id_list:
                 if not isinstance(id_l,int): return {"Error": f"Um ID não está tipado como Inteiro"}
+        
+        #remocao dos alunos
         for aluno in id_list:
             aluno = Aluno.query.get_or_404(aluno)
             if aluno in atividade.alunos:
