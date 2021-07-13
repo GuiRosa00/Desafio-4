@@ -20,6 +20,7 @@ class Aluno(db.Model):
             "nome":self.nome,
             "genero":self.genero,
             "endereco":self.endereco,
+            "email":self.email,
             "idade":self.idade,
             "contato":self.contato,
             "cpf":self.cpf,

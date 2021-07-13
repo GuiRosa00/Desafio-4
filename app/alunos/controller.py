@@ -32,12 +32,8 @@ class AlunoGeral(MethodView): #/aluno
         aluno = Aluno(nome = nome,genero=genero,endereco=endereco,email = email,idade=idade,contato=contato,cpf=cpf)
         db.session.add(aluno)
         db.session.commit()
-        msg = Message(
-            sender = 'guilherme.rosa@poli.ufrj.br',
-            recipients = [email],
-            subject = 'Cadastro Feito',
-            html= render_template(email.html, nome= nome))
-        mail.send(msg)
+        #msg = Message(sender = 'guilherme.rosa@poli.ufrj.br',recipients = [email],subject = 'Cadastro Feito',html= render_template(email.html, nome= nome))
+        #mail.send(msg)
         return aluno.json(),200
     
 class AlunoID(MethodView): #aluno/details/id

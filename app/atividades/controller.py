@@ -68,14 +68,23 @@ class AtividadeID(MethodView): #atividade/details/id
         horario = dados.get("horario",atividade.horario)
         tipo =dados.get("tipo",atividade.tipo)
         lotacao =dados.get("lotacao",atividade.lotacao)
+        id_list = dados.get("alunos",atividade.alunos)
 
         #verificação dos dados
         listastr = [(horario,"horario"),(tipo,"tipo")]
         listaint = [(lotacao,"lotacao")]
+        if id_list != []:
+            for id_l in id_list:
+                if not isinstance(id_l,int): return {"Error": f"Um ID não está tipado como Inteiro"}
         for dadoint,erro in listaint:
             if not isinstance(dadoint,int): return {"Error": f"O dado {erro} não está tipado como Inteiro"}
         for dadostr,erro in listastr:
             if (not isinstance(dadostr,str)) or dadostr == '': return {"Error": f"O dado {erro} não está tipado como String"}  
+        
+        for aluno in id_list:
+            aluno = Aluno.query.get_or_404(aluno)
+            if not(aluno in atividade.alunos):
+                atividade.alunos.append(aluno)
         atividade.horario =horario
         atividade.tipo = tipo
         atividade.lotacao =lotacao
@@ -90,27 +99,20 @@ class AtividadeID(MethodView): #atividade/details/id
         db.session.commit()
         return atividade.json(), 200
 
-#método ainda não funcional
-class Ativalu(MethodView): #atividade/details/id/aluno
-    def patch(self,id):
-        atividade = Atividade.query.get_or_404(id)
+class AtivaluRemove(MethodView): #atividade/details/id/aluno
+    def delete(self,id):
+        """delete(self,int)-> dict, int
+        Dado um ID e um input json, deleta os alunos possuinte do ID no banco de dados da atividade."""
+        atividade  = Atividade.query.get_or_404(id)
         dados = request.json
-        horario = dados.get("horario",atividade.horario)
-        tipo =dados.get("tipo",atividade.tipo)
-        lotacao =dados.get("lotacao",atividade.lotacao)
-        id_alu = dados.get("alunos")
-        #verificação dos dados
-        listastr = [(horario,"horario"),(tipo,"tipo")]
-        listaint = [(lotacao,"lotacao")]
-        for dadoint,erro in listaint:
-            if not isinstance(dadoint,int): return {"Error": f"O dado {erro} não está tipado como Inteiro"}
-        for dadostr,erro in listastr:
-            if (not isinstance(dadostr,str)) or dadostr == '': return {"Error": f"O dado {erro} não está tipado como String"}  
-        
-        aluno = Aluno.query.get_or_404(id_alu)
-        atividade.alunos.append(aluno)
-        atividade.horario =horario
-        atividade.tipo = tipo
-        atividade.lotacao =lotacao
+        id_list = dados.get("alunos",atividade.alunos)
+        if id_list != []:
+            for id_l in id_list:
+                if not isinstance(id_l,int): return {"Error": f"Um ID não está tipado como Inteiro"}
+        for aluno in id_list:
+            aluno = Aluno.query.get_or_404(aluno)
+            if aluno in atividade.alunos:
+                atividade.alunos.remove(aluno)
         db.session.commit()
-        return atividade.json(),200
+        return atividade.json(), 200
+

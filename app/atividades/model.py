@@ -17,5 +17,5 @@ class Atividade(db.Model):
             "horario":self.horario,
             "tipo":self.tipo,
             "lotacao":self.lotacao,
-            "alunos":self.alunos,
+            "alunos": [aluno.id for aluno in self.alunos],
         }
