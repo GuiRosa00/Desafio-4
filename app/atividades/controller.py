@@ -77,3 +77,28 @@ class AtividadeID(MethodView): #atividade/details/id
         db.session.delete(atividade)
         db.session.commit()
         return atividade.json(), 200
+
+#método ainda não funcional
+class Ativalu(MethodView): #atividade/details/id/aluno
+    def patch(self,id):
+        atividade = Atividade.query.get_or_404(id)
+        dados = request.json
+        horario = dados.get("horario",atividade.horario)
+        tipo =dados.get("tipo",atividade.tipo)
+        lotacao =dados.get("lotacao",atividade.lotacao)
+        id_alu = dados.get("alunos")
+        #verificação dos dados
+        listastr = [(horario,"horario"),(tipo,"tipo")]
+        listaint = [(lotacao,"lotacao")]
+        for dadoint,erro in listaint:
+            if not isinstance(dadoint,int): return {"Error": f"O dado {erro} não está tipado como Inteiro"}
+        for dadostr,erro in listastr:
+            if (not isinstance(dadostr,str)) or dadostr == '': return {"Error": f"O dado {erro} não está tipado como String"}  
+        
+        aluno = Aluno.query.get_or_404(id_alu)
+        atividade.alunos.append(aluno)
+        atividade.horario =horario
+        atividade.tipo = tipo
+        atividade.lotacao =lotacao
+        db.session.commit()
+        return atividade.json(),200
