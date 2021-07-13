@@ -12,3 +12,13 @@ class Aluno(db.Model):
     contato = db.Column(db.Integer,unique = True,nullable = False)
     cpf = db.Column(db.Integer,unique = True,nullable = False)
     atividades = db.relationship('Atividade',secondary = association_alu_ativ, backref = db.backref('aluno'))
+    def json(self):
+        return {
+            "id":self.id,
+            "nome":self.nome,
+            "genero":self.genero,
+            "idade":self.idade,
+            "contato":self.contato,
+            "cpf":self.cpf,
+            "atividades": self.atividades
+        }
