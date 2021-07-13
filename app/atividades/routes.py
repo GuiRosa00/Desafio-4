@@ -10,4 +10,4 @@ atividade_api.add_url_rule(
          '/atividade/details/<int:id>',view_func = AtividadeID.as_view('atividade_details'),methods = ['GET','PUT','PATCH','DELETE'])
 
 atividade_api.add_url_rule(
-         '/atividade/details/<int:id>/aluno',view_func = AtivaluRemove.as_view('atividade_aluno'),methods = ['DELETE'])
+         '/atividade/<int:id>/remove/aluno',view_func = AtivaluRemove.as_view('atividade_aluno'),methods = ['DELETE'])

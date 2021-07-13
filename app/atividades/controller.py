@@ -99,7 +99,7 @@ class AtividadeID(MethodView): #atividade/details/id
         db.session.commit()
         return atividade.json(), 200
 
-class AtivaluRemove(MethodView): #atividade/details/id/aluno
+class AtivaluRemove(MethodView): #atividade/id/remove/aluno
     def delete(self,id):
         """delete(self,int)-> dict, int
         Dado um ID e um input json, deleta os alunos possuinte do ID no banco de dados da atividade."""
