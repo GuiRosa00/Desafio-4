@@ -3,6 +3,7 @@ from flask.views import MethodView
 from app.alunos.model import Aluno
 from app.extensions import db,mail
 from flask_mail import Message
+from app.atividades.model import Atividade
 
 class AlunoGeral(MethodView): #/aluno
     def get(self):
@@ -86,10 +87,14 @@ class AlunoID(MethodView): #aluno/details/id
         contato = dados.get("contato",aluno.contato)
         cpf = dados.get("cpf",aluno.cpf)
         email = dados.get("email",aluno.email)
+        id_list = dados.get("atividades",[])
 
         #verificação dos dados
         listastr = [(nome,"nome"),(genero,"genero"),(endereco,"endereco"),(email,"email")]
         listaint = [(idade,"idade"),(contato, "contato"),(cpf,"cpf")]
+        if id_list != []:
+            for id_l in id_list:
+                if not isinstance(id_l,int): return {"Error": f"Um ID não está tipado como Inteiro"},406
         for dadoint,erro in listaint:
             if not isinstance(dadoint,int): return {"Error": f"O dado {erro} não está tipado como Inteiro"},406
         for dadostr,erro in listastr:
@@ -101,6 +106,12 @@ class AlunoID(MethodView): #aluno/details/id
         aluno.contato = contato
         aluno.cpf = cpf
         aluno.email = email
+        
+        for atividade in id_list:
+            atividade = Atividade.query.get_or_404(atividade)
+            if not(aluno in atividade.alunos) and (len(atividade.alunos)+1 <= atividade.lotacao):
+                atividade.alunos.append(aluno)
+        
         db.session.commit()
         return aluno.json(),200
       
@@ -111,3 +122,26 @@ class AlunoID(MethodView): #aluno/details/id
         db.session.delete(aluno)
         db.session.commit()
         return aluno.json(), 200
+
+class AlunoRemove(MethodView):#aluno/id/remove
+    def delete(self,id):
+        """delete(self,int)-> dict, int
+        Dado um ID e um input json, deleta o aluno de todas as atividades dentro do input json."""
+        aluno  = Aluno.query.get_or_404(id)
+        dados = request.json
+        id_list = dados.get("atividades",[])
+        
+        #verificao dos dados
+        if id_list == []: return {"Error": "A lista de ID está vazia"},406
+        
+        for id_l in id_list:
+            if not isinstance(id_l,int): return {"Error": "Um ID não está tipado como Inteiro"},406
+        
+        #remocao do aluno das atividades
+        for atividade in id_list:
+            atividade = Atividade.query.get_or_404(atividade)
+            if aluno in atividade.alunos:
+                atividade.alunos.remove(aluno)
+        db.session.commit()
+        return aluno.json(), 200
+
