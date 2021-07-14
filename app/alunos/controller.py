@@ -27,9 +27,9 @@ class AlunoGeral(MethodView): #/aluno
         listastr = [(nome,"nome"),(genero,"genero"),(endereco,"endereco"),(email,"email")]
         listaint = [(idade,"idade"),(contato, "contato"),(cpf,"cpf")]
         for dadoint,erro in listaint:
-            if not isinstance(dadoint,int): return {"Error": f"O dado {erro} não está tipado como Inteiro"}
+            if not isinstance(dadoint,int): return {"Error": f"O dado {erro} não está tipado como Inteiro"},406
         for dadostr,erro in listastr:
-            if (not isinstance(dadostr,str)) or dadostr == '': return {"Error": f"O dado {erro} não está tipado como String"}  
+            if (not isinstance(dadostr,str)) or dadostr == '': return {"Error": f"O dado {erro} não está tipado como String"},406
         aluno = Aluno(nome = nome,genero=genero,endereco=endereco,email = email,idade=idade,contato=contato,cpf=cpf)
         db.session.add(aluno)
         db.session.commit()
@@ -61,9 +61,9 @@ class AlunoID(MethodView): #aluno/details/id
         listastr = [(nome,"nome"),(genero,"genero"),(endereco,"endereco"),(email,"email")]
         listaint = [(idade,"idade"),(contato, "contato"),(cpf,"cpf")]
         for dadoint,erro in listaint:
-            if not isinstance(dadoint,int): return {"Error": f"O dado {erro} não está tipado como Inteiro"}
+            if not isinstance(dadoint,int): return {"Error": f"O dado {erro} não está tipado como Inteiro"},406
         for dadostr,erro in listastr:
-            if not isinstance(dadostr,str): return {"Error": f"O dado {erro} não está tipado como String"}  
+            if not isinstance(dadostr,str): return {"Error": f"O dado {erro} não está tipado como String"},406
         aluno.nome =nome
         aluno.genero = genero
         aluno.endereco =endereco
@@ -91,9 +91,9 @@ class AlunoID(MethodView): #aluno/details/id
         listastr = [(nome,"nome"),(genero,"genero"),(endereco,"endereco"),(email,"email")]
         listaint = [(idade,"idade"),(contato, "contato"),(cpf,"cpf")]
         for dadoint,erro in listaint:
-            if not isinstance(dadoint,int): return {"Error": f"O dado {erro} não está tipado como Inteiro"}
+            if not isinstance(dadoint,int): return {"Error": f"O dado {erro} não está tipado como Inteiro"},406
         for dadostr,erro in listastr:
-            if not isinstance(dadostr,str): return {"Error": f"O dado {erro} não está tipado como String"}  
+            if not isinstance(dadostr,str): return {"Error": f"O dado {erro} não está tipado como String"},406
         aluno.nome =nome
         aluno.genero = genero
         aluno.endereco =endereco

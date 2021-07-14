@@ -23,9 +23,9 @@ class AtividadeGeral(MethodView): #/atividade
         listastr = [(horario,"horario"),(tipo,"tipo")]
         listaint = [(lotacao,"lotacao")]
         for dadoint,erro in listaint:
-            if not isinstance(dadoint,int): return {"Error": f"O dado {erro} não está tipado como Inteiro"}
+            if not isinstance(dadoint,int): return {"Error": f"O dado {erro} não está tipado como Inteiro"},406
         for dadostr,erro in listastr:
-            if (not isinstance(dadostr,str)) or dadostr == '': return {"Error": f"O dado {erro} não está tipado como String"}  
+            if (not isinstance(dadostr,str)) or dadostr == '': return {"Error": f"O dado {erro} não está tipado como String"},406 
         
         atividade = Atividade(horario = horario,tipo=tipo,lotacao=lotacao)
         db.session.add(atividade)
@@ -52,9 +52,9 @@ class AtividadeID(MethodView): #atividade/details/id
         listastr = [(horario,"horario"),(tipo,"tipo")]
         listaint = [(lotacao,"lotacao")]
         for dadoint,erro in listaint:
-            if not isinstance(dadoint,int): return {"Error": f"O dado {erro} não está tipado como Inteiro"}
+            if not isinstance(dadoint,int): return {"Error": f"O dado {erro} não está tipado como Inteiro"},406
         for dadostr,erro in listastr:
-            if (not isinstance(dadostr,str)) or dadostr == '': return {"Error": f"O dado {erro} não está tipado como String"}  
+            if (not isinstance(dadostr,str)) or dadostr == '': return {"Error": f"O dado {erro} não está tipado como String"},406 
         atividade.horario =horario
         atividade.tipo = tipo
         atividade.lotacao =lotacao
@@ -77,15 +77,15 @@ class AtividadeID(MethodView): #atividade/details/id
         
         if id_list != []:
             for id_l in id_list:
-                if not isinstance(id_l,int): return {"Error": f"Um ID não está tipado como Inteiro"}
+                if not isinstance(id_l,int): return {"Error": f"Um ID não está tipado como Inteiro"},406
         for dadoint,erro in listaint:
-            if not isinstance(dadoint,int): return {"Error": f"O dado {erro} não está tipado como Inteiro"}
+            if not isinstance(dadoint,int): return {"Error": f"O dado {erro} não está tipado como Inteiro"},406
         for dadostr,erro in listastr:
-            if (not isinstance(dadostr,str)) or dadostr == '': return {"Error": f"O dado {erro} não está tipado como String ou está no formato ''"}  
+            if (not isinstance(dadostr,str)) or dadostr == '': return {"Error": f"O dado {erro} não está tipado como String ou está no formato ''"},406  
         
         #verificações referente à lotação
-        if lotacao < len(atividade.alunos): return {"Error": "A lotação da atividade ficaria menor que o número de alunos inseridos."}
-        if len(id_list)>atividade.lotacao-len(atividade.alunos):return {"Error": "O número de alunos inscritos na atividade excederia sua lotação"}
+        if lotacao < len(atividade.alunos): return {"Error": "A lotação da atividade ficaria menor que o número de alunos inseridos."},403
+        if len(id_list)>atividade.lotacao-len(atividade.alunos):return {"Error": "O número de alunos inscritos na atividade excederia sua lotação"},403
         
         #Adicao dos dados
         for aluno in id_list:
@@ -115,10 +115,10 @@ class AtivaluRemove(MethodView): #atividade/id/remove/aluno
         id_list = dados.get("alunos",[])
         
         #verificao dos dados
-        if id_list == []: return {"Error": "A lista de ID está vazia"}
+        if id_list == []: return {"Error": "A lista de ID está vazia"},406
         
         for id_l in id_list:
-            if not isinstance(id_l,int): return {"Error": "Um ID não está tipado como Inteiro"}
+            if not isinstance(id_l,int): return {"Error": "Um ID não está tipado como Inteiro"},406
         
         #remocao dos alunos
         for aluno in id_list:
