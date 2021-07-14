@@ -112,12 +112,13 @@ class AtivaluRemove(MethodView): #atividade/id/remove/aluno
         Dado um ID e um input json, deleta os alunos possuinte do ID JSON no banco de dados da atividade."""
         atividade  = Atividade.query.get_or_404(id)
         dados = request.json
-        id_list = dados.get("alunos",atividade.alunos)
+        id_list = dados.get("alunos",[])
         
         #verificao dos dados
-        if id_list != []:
-            for id_l in id_list:
-                if not isinstance(id_l,int): return {"Error": f"Um ID não está tipado como Inteiro"}
+        if id_list == []: return {"Error": "A lista de ID está vazia"}
+        
+        for id_l in id_list:
+            if not isinstance(id_l,int): return {"Error": "Um ID não está tipado como Inteiro"}
         
         #remocao dos alunos
         for aluno in id_list:
