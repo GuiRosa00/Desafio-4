@@ -18,16 +18,19 @@ class AtividadeGeral(MethodView): #/atividade
         horario = dados.get("horario")
         tipo =dados.get("tipo")
         lotacao =dados.get("lotacao")
+        professor = dados.get("professor")
+        sala = dados.get("sala")
+        dia = dados.get("dia")
         
         #verificação dos dados
-        listastr = [(horario,"horario"),(tipo,"tipo")]
+        listastr = [(horario,"horario"),(tipo,"tipo"),(professor,"professor"),(sala,"sala"),(dia,"dia")]
         listaint = [(lotacao,"lotacao")]
         for dadoint,erro in listaint:
             if not isinstance(dadoint,int): return {"Error": f"O dado {erro} não está tipado como Inteiro"},406
         for dadostr,erro in listastr:
             if (not isinstance(dadostr,str)) or dadostr == '': return {"Error": f"O dado {erro} não está tipado como String"},406 
         
-        atividade = Atividade(horario = horario,tipo=tipo,lotacao=lotacao)
+        atividade = Atividade(horario = horario,tipo=tipo,lotacao=lotacao,professor = professor, sala = sala)
         db.session.add(atividade)
         db.session.commit()
         return atividade.json(),200
@@ -47,9 +50,12 @@ class AtividadeID(MethodView): #atividade/details/id
         horario = dados.get("horario")
         tipo =dados.get("tipo")
         lotacao =dados.get("lotacao")
-
+        professor = dados.get("professor")
+        sala = dados.get("sala")
+        dia = dados.get("dia")
+        
         #verificação dos dados
-        listastr = [(horario,"horario"),(tipo,"tipo")]
+        listastr = [(horario,"horario"),(tipo,"tipo"),(professor,"professor"),(sala,"sala"),(dia,"dia")]
         listaint = [(lotacao,"lotacao")]
         for dadoint,erro in listaint:
             if not isinstance(dadoint,int): return {"Error": f"O dado {erro} não está tipado como Inteiro"},406
@@ -58,6 +64,8 @@ class AtividadeID(MethodView): #atividade/details/id
         atividade.horario =horario
         atividade.tipo = tipo
         atividade.lotacao =lotacao
+        atividade.professor = professor
+        atividade.sala = sala
         db.session.commit()
         return atividade.json(),200
        
@@ -70,9 +78,12 @@ class AtividadeID(MethodView): #atividade/details/id
         tipo =dados.get("tipo",atividade.tipo)
         lotacao =dados.get("lotacao",atividade.lotacao)
         id_list = dados.get("alunos",[])
+        professor = dados.get("professor",atividade.professor)
+        sala = dados.get("sala",atividade.sala)
+        dia = dados.get("dia", atividade.dia)
 
         #verificação dos dados
-        listastr = [(horario,"horario"),(tipo,"tipo")]
+        listastr = [(horario,"horario"),(tipo,"tipo"),(professor,"professor"),(sala,"sala"),(dia,"dia")]
         listaint = [(lotacao,"lotacao")]
         
         if id_list != []:
@@ -95,6 +106,9 @@ class AtividadeID(MethodView): #atividade/details/id
         atividade.horario =horario
         atividade.tipo = tipo
         atividade.lotacao =lotacao
+        atividade.professor = professor
+        atividade.sala = sala
+        atividade.dia = dia
         db.session.commit()
         return atividade.json(),200
       

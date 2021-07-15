@@ -140,6 +140,7 @@ class AlunoID(MethodView): #aluno/details/id
             atividade = Atividade.query.get_or_404(atividade)
             if not(aluno in atividade.alunos) and (len(atividade.alunos)+1 <= atividade.lotacao):
                 atividade.alunos.append(aluno)
+            else: return {"Error": f"A atividade de {atividade.tipo} feita as {atividade.horario} está lotada."}
         db.session.commit()
         return aluno.json(),200
       
@@ -155,7 +156,7 @@ class AlunoID(MethodView): #aluno/details/id
         db.session.commit()
         return aluno.json(), 200
 
-class AlunoRemove(MethodView):#aluno/id/remove
+class AlunoRemove(MethodView):#aluno/id/remove_atividade
     decorators = [jwt_required()]
     def delete(self,id):
         """delete(self,int)-> dict, int

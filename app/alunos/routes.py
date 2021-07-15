@@ -11,7 +11,7 @@ aluno_api.add_url_rule(
 
 
 aluno_api.add_url_rule(
-         '/aluno/<int:id>/remove',view_func = AlunoRemove.as_view('aluno_remove'),methods = ['DELETE'])
+         '/aluno/<int:id>/remove_atividade',view_func = AlunoRemove.as_view('aluno_remove'),methods = ['DELETE'])
 
 aluno_api.add_url_rule(
          '/aluno/login',view_func = AlunoLogin.as_view('aluno_login'),methods = ['POST'])
