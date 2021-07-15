@@ -1,6 +1,6 @@
 from flask import Flask
 from app.config import Config
-from app.extensions import db,migrate,mail
+from app.extensions import db,migrate,mail,jwt
 from app.alunos.routes import aluno_api
 from app.atividades.routes import atividade_api
 
@@ -14,6 +14,7 @@ def create_app():
     app.register_blueprint(aluno_api)
     app.register_blueprint(atividade_api)
 
+    jwt.init_app(app)
     mail.init_app(app)
     db.init_app(app)
     migrate.init_app(app,db)

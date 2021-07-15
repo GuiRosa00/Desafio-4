@@ -1,9 +1,10 @@
-#from app.sensive import Sensive as sen
+from app.sensive import Sensive as sen
 class Config:
     SQLALCHEMY_DATABASE_URI = "sqlite:///data-dev.db"
     SQL_ALCHEMY_TRACK_MODIFICATIONS = False
     JSON_SORT_KEYS = False
-    
+    JWT_SECRET_KEY = sen.JWT_SECRET_KEY
+
     #documentado integração com o sensive
     #SQLALCHEMY_DATABASE_URI =sen.SQLALCHEMY_DATABASE_URI
     #SQL_ALCHEMY_TRACK_MODIFICATIONS =sen.SQL_ALCHEMY_TRACK_MODIFICATIONS

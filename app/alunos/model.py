@@ -17,13 +17,11 @@ class Aluno(db.Model):
         """json(self)-> dict
         Retorna as informações de um aluno no formato json"""
         return {
-            "id":self.id,
+            "id":self.id, #está mantido para testes, na versão final será apagado
             "nome":self.nome,
             "genero":self.genero,
-            "endereco":self.endereco,
             "email":self.email,
             "idade":self.idade,
-            "contato":self.contato,
             "cpf":self.cpf,
             "atividades": [(atividade.horario,atividade.tipo) for atividade in self.atividade]
         }

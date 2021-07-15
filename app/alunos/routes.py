@@ -1,5 +1,5 @@
 from flask import Blueprint
-from app.alunos.controller import AlunoGeral,AlunoID,AlunoRemove
+from app.alunos.controller import AlunoGeral,AlunoID,AlunoRemove,AlunoLogin
 aluno_api = Blueprint('aluno_api',__name__)
 
 #rotas do aluno
@@ -12,3 +12,6 @@ aluno_api.add_url_rule(
 
 aluno_api.add_url_rule(
          '/aluno/<int:id>/remove',view_func = AlunoRemove.as_view('aluno_remove'),methods = ['DELETE'])
+
+aluno_api.add_url_rule(
+         '/aluno/login',view_func = AlunoLogin.as_view('aluno_login'),methods = ['POST'])
