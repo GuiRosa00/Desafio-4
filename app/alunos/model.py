@@ -12,17 +12,16 @@ class Aluno(db.Model):
     idade = db.Column(db.Integer,nullable = False)
     contato = db.Column(db.Integer,unique = True,nullable = False)
     cpf = db.Column(db.Integer,unique = True,nullable = False)
+    senha_hash = db.Column(db.String(200),unique = True,nullable = False)
     def json(self):
         """json(self)-> dict
         Retorna as informações de um aluno no formato json"""
         return {
-            "id":self.id,
+            "id":self.id, #está mantido para testes, na versão final será apagado
             "nome":self.nome,
             "genero":self.genero,
-            "endereco":self.endereco,
             "email":self.email,
             "idade":self.idade,
-            "contato":self.contato,
             "cpf":self.cpf,
             "atividades": [(atividade.horario,atividade.tipo) for atividade in self.atividade]
         }
