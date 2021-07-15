@@ -7,6 +7,7 @@ import bcrypt
 from app.alunos.model import Aluno
 from app.extensions import db,mail
 from app.atividades.model import Atividade
+from app import templates
 
 
 class AlunoGeral(MethodView): #/aluno
@@ -46,7 +47,10 @@ class AlunoGeral(MethodView): #/aluno
         aluno = Aluno(nome = nome,genero=genero,endereco=endereco,email = email,idade=idade,contato=contato,cpf=cpf,senha_hash= senha_hash)
         db.session.add(aluno)
         db.session.commit()
-        #msg = Message(sender = 'guilherme.rosa@poli.ufrj.br',recipients = [email],subject = 'Cadastro Feito',html= render_template(email.html, nome= nome))
+        
+        #msg = Message(sender = 'guilherme.rosa@poli.ufrj.br',
+        #recipients = [email],subject = 'Cadastro Feito',
+        #html= render_template('email.html', nome= nome))
         #mail.send(msg)
         return aluno.json(),200
     
