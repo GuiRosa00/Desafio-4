@@ -31,9 +31,9 @@ class AtividadeGeral(MethodView): #/atividade
             if (not isinstance(dadostr,str)) or dadostr == '': return {"Error": f"O dado {erro} não está tipado como String"},406 
         database = Atividade.query.filter_by(sala = sala)
         for ativ in database:
-            if horario == ativ.horario and dia == ativ.dia: return {"Error": "Já existe uma atividade nesta sala no mesmo horário e dia."},400
+            if horario == ativ.horario and dia == ativ.dia: return {"Error": "Já existe uma atividade nesta sala no mesmo horário e dia"},400
 
-        atividade = Atividade(horario = horario,tipo=tipo,lotacao=lotacao,professor = professor, sala = sala)
+        atividade = Atividade(horario = horario,tipo=tipo,lotacao=lotacao,professor = professor, sala = sala,dia = dia)
         db.session.add(atividade)
         db.session.commit()
         return atividade.json(),200
