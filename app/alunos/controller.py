@@ -55,12 +55,20 @@ class AlunoID(MethodView): #aluno/details/id
     def get(self,id):
         """get(self,int)-> dict, int
         Dado um id, retorna um aluno específico do sistema"""
+        #verificação do token
+        auth_id = get_jwt_identity()
+        if id != auth_id: return {"Erro":"O usuário é diferente do token criado"},400
+        
         aluno = Aluno.query.get_or_404(id)
         return aluno.json(),200
     
     def put(self,id):
         """put(self,int)-> dict,int
         Dado um id, altera todas as informações de um aluno do sistema e mostra as alterações"""
+        #verificação do token
+        auth_id = get_jwt_identity()
+        if id != auth_id: return {"Erro":"O usuário é diferente do token criado"},400
+
         aluno = Aluno.query.get_or_404(id)
         dados = request.json
         nome =dados.get("nome")
@@ -90,6 +98,10 @@ class AlunoID(MethodView): #aluno/details/id
     def patch(self,id):
         """patch(self,int)-> dict, int
         Dado um id, verifica as informações do json e altera as necessárias no banco de dados de determinado aluno"""
+        #verificação do token
+        auth_id = get_jwt_identity()
+        if id != auth_id: return {"Erro":"O usuário é diferente do token criado"},400
+        
         aluno = Aluno.query.get_or_404(id)
         dados = request.json
         nome =dados.get("nome",aluno.nome)
@@ -134,6 +146,10 @@ class AlunoID(MethodView): #aluno/details/id
     def delete(self,id):
         """delete(self,int)-> dict, int
         Dado um ID, deleta o aluno possuinte do ID no banco de dados."""
+        #verificação do token
+        auth_id = get_jwt_identity()
+        if id != auth_id: return {"Erro":"O usuário é diferente do token criado"},400
+        
         aluno= Aluno.query.get_or_404(id)
         db.session.delete(aluno)
         db.session.commit()
@@ -144,6 +160,10 @@ class AlunoRemove(MethodView):#aluno/id/remove
     def delete(self,id):
         """delete(self,int)-> dict, int
         Dado um ID e um input json, deleta o aluno de todas as atividades dentro do input json."""
+        #verificação do token
+        auth_id = get_jwt_identity()
+        if id != auth_id: return {"Erro":"O usuário é diferente do token criado"},400
+        
         aluno  = Aluno.query.get_or_404(id)
         dados = request.json
         id_list = dados.get("atividades",[])
