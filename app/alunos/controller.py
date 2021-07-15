@@ -4,6 +4,7 @@ from app.alunos.model import Aluno
 from app.extensions import db,mail
 from flask_mail import Message
 from app.atividades.model import Atividade
+import bcrypt
 
 class AlunoGeral(MethodView): #/aluno
     def get(self):
@@ -23,15 +24,23 @@ class AlunoGeral(MethodView): #/aluno
         idade =dados.get("idade")
         contato = dados.get("contato")
         cpf = dados.get("cpf")
+        senha = dados.get("senha")
         
         #verificação dos dados
-        listastr = [(nome,"nome"),(genero,"genero"),(endereco,"endereco"),(email,"email")]
+        listastr = [(nome,"nome"),(genero,"genero"),(endereco,"endereco"),(email,"email"),(senha,"senha")]
         listaint = [(idade,"idade"),(contato, "contato"),(cpf,"cpf")]
         for dadoint,erro in listaint:
             if not isinstance(dadoint,int): return {"Error": f"O dado {erro} não está tipado como Inteiro"},406
         for dadostr,erro in listastr:
             if (not isinstance(dadostr,str)) or dadostr == '': return {"Error": f"O dado {erro} não está tipado como String"},406
-        aluno = Aluno(nome = nome,genero=genero,endereco=endereco,email = email,idade=idade,contato=contato,cpf=cpf)
+        
+        #verificação dos dados unique
+        lista_unique = [(Aluno.query.filter_by(email = email).first(),"Email"),(Aluno.query.filter_by(cpf = cpf).first(),"CPF"),(Aluno.query.filter_by(contato = contato).first(),"Contato")]
+        for dado_unique, erro in lista_unique:
+            if dado_unique: return {"Error": f"Já tem o mesmo {erro} cadastrado no sistema"},400
+        
+        senha_hash = bcrypt.hashpw(senha.encode(),bcrypt.gensalt())
+        aluno = Aluno(nome = nome,genero=genero,endereco=endereco,email = email,idade=idade,contato=contato,cpf=cpf,senha_hash= senha_hash)
         db.session.add(aluno)
         db.session.commit()
         #msg = Message(sender = 'guilherme.rosa@poli.ufrj.br',recipients = [email],subject = 'Cadastro Feito',html= render_template(email.html, nome= nome))
