@@ -147,8 +147,8 @@ class AlunoID(MethodView): #aluno/details/id
             senha = bcrypt.hashpw(senha.encode(),bcrypt.gensalt())
             aluno.senha_hash = senha
         #verificação das atividades
-        for atividade in id_list:
-            atividade = Atividade.query.get_or_404(atividade)
+        for id_ativ in id_list:
+            atividade = Atividade.query.get_or_404(id_ativ)
             if not(aluno in atividade.alunos) and (len(atividade.alunos)+1 <= atividade.lotacao):
                 atividade.alunos.append(aluno)
             else: return {"Error": f"A atividade de {atividade.tipo} feita as {atividade.horario} está lotada."}
@@ -187,8 +187,8 @@ class AlunoRemove(MethodView):#aluno/id/remove_atividade
             if not isinstance(id_l,int): return {"Error": "Um ID não está tipado como Inteiro"},406
         
         #remocao do aluno das atividades
-        for atividade in id_list:
-            atividade = Atividade.query.get_or_404(atividade)
+        for id_ativ in id_list:
+            atividade = Atividade.query.get_or_404(id_ativ)
             if aluno in atividade.alunos:
                 atividade.alunos.remove(aluno)
         db.session.commit()
