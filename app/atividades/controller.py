@@ -32,7 +32,8 @@ class AtividadeGeral(MethodView): #/atividade
         database = Atividade.query.filter_by(sala = sala)
         for ativ in database:
             if horario == ativ.horario and dia == ativ.dia: return {"Error": "Já existe uma atividade nesta sala no mesmo horário e dia"},400
-
+        if lotacao>5 or lotacao<0: return {"Error": "A lotação pedida excede o limite de 5 alunos ou é um número negativo"},400
+        
         atividade = Atividade(horario = horario,tipo=tipo,lotacao=lotacao,professor = professor, sala = sala,dia = dia)
         db.session.add(atividade)
         db.session.commit()
@@ -64,6 +65,8 @@ class AtividadeID(MethodView): #atividade/details/id
             if not isinstance(dadoint,int): return {"Error": f"O dado {erro} não está tipado como Inteiro"},406
         for dadostr,erro in listastr:
             if (not isinstance(dadostr,str)) or dadostr == '': return {"Error": f"O dado {erro} não está tipado como String"},406 
+        if lotacao>5 or lotacao<0: return {"Error": "A lotação pedida excede o limite de 5 alunos ou é um número negativo"},400
+
         atividade.horario =horario
         atividade.tipo = tipo
         atividade.lotacao =lotacao
@@ -88,7 +91,7 @@ class AtividadeID(MethodView): #atividade/details/id
         #verificação dos dados
         listastr = [(horario,"horario"),(tipo,"tipo"),(professor,"professor"),(sala,"sala"),(dia,"dia")]
         listaint = [(lotacao,"lotacao")]
-        
+
         if id_list != []:
             for id_l in id_list:
                 if not isinstance(id_l,int): return {"Error": f"Um ID não está tipado como Inteiro"},406
@@ -98,6 +101,7 @@ class AtividadeID(MethodView): #atividade/details/id
             if (not isinstance(dadostr,str)) or dadostr == '': return {"Error": f"O dado {erro} não está tipado como String ou está no formato ''"},406  
         
         #verificações referente à lotação
+        if lotacao>5 or lotacao<0: return {"Error": "A lotação pedida excede o limite de 5 alunos ou é um número negativo"},400
         if lotacao < len(atividade.alunos): return {"Error": "A lotação da atividade ficaria menor que o número de alunos inseridos."},403
         if len(id_list)>atividade.lotacao-len(atividade.alunos):return {"Error": "O número de alunos inscritos na atividade excederia sua lotação"},403
         

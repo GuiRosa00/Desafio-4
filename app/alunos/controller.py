@@ -42,7 +42,9 @@ class AlunoGeral(MethodView): #/aluno
         lista_unique = [(Aluno.query.filter_by(email = email).first(),"Email"),(Aluno.query.filter_by(cpf = cpf).first(),"CPF"),(Aluno.query.filter_by(contato = contato).first(),"Contato")]
         for dado_unique, erro in lista_unique:
             if dado_unique: return {"Error": f"Já tem o mesmo {erro} cadastrado no sistema"},400
-        
+        if not "@" in email : return {"Error": "Não foi inserido um email válido"},400
+        if idade<0: return {"Error": 'Foi inserido uma Idade inferior a 0'},400
+
         senha_hash = bcrypt.hashpw(senha.encode(),bcrypt.gensalt())
         aluno = Aluno(nome = nome,genero=genero,endereco=endereco,email = email,idade=idade,contato=contato,cpf=cpf,senha_hash= senha_hash)
         db.session.add(aluno)
@@ -89,6 +91,9 @@ class AlunoID(MethodView): #aluno/details/id
             if not isinstance(dadoint,int): return {"Error": f"O dado {erro} não está tipado como Inteiro"},406
         for dadostr,erro in listastr:
             if not isinstance(dadostr,str): return {"Error": f"O dado {erro} não está tipado como String"},406
+        if not "@" in email : return {"Error": "Não foi inserido um email válido"},400
+        if idade<0: return {"Error": 'Foi inserido uma Idade inferior a 0'},400
+        
         aluno.nome =nome
         aluno.genero = genero
         aluno.endereco =endereco
@@ -127,6 +132,8 @@ class AlunoID(MethodView): #aluno/details/id
             if not isinstance(dadoint,int): return {"Error": f"O dado {erro} não está tipado como Inteiro"},406
         for dadostr,erro in listastr:
             if not isinstance(dadostr,str): return {"Error": f"O dado {erro} não está tipado como String"},406
+        if not "@" in email : return {"Error": "Não foi inserido um email válido"},400
+        if idade<0: return {"Error": 'Foi inserido uma Idade inferior a 0'},400
         #alteração dos dados normais
         aluno.nome =nome
         aluno.genero = genero
